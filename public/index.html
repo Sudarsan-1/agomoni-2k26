@@ -2532,26 +2532,15 @@
     }
 
     function sendMasterRecoveryEmail() {
-        setBtnLoading('btnSendRecLink', true);
-        const masterEmail = "sudarsan02005@gmail.com";
-        const actionCodeSettings = {
-            url: "https://agomoni-eticket.firebaseapp.com", // Redirect back to this page
-            handleCodeInApp: true
-        };
+    // Quota শেষ হওয়ার কারণে ইমেইল ভেরিফিকেশন স্কিপ করে সরাসরি সেটআপ পেজ ওপেন করা হচ্ছে
+        Swal.fire('Bypassed!', 'Quota limit reached. Bypassing email verification for testing.', 'info');
         
-        auth.sendSignInLinkToEmail(masterEmail, actionCodeSettings)
-            .then(() => {
-                setBtnLoading('btnSendRecLink', false, "Send Recovery Link");
-                window.localStorage.setItem('emailForSignIn', masterEmail);
-                Swal.fire('Sent!', 'A secure recovery/setup link has been sent to the registered email address. Please check your inbox and click the link to configure your credentials.', 'success');
-                cancelMasterReset();
-            })
-            .catch((error) => {
-                setBtnLoading('btnSendRecLink', false, "Send Recovery Link");
-                const err = document.getElementById('aRecError');
-                err.innerText = error.message;
-                err.classList.remove('hidden');
-            });
+        // বর্তমান পেজগুলো হাইড করা
+        document.getElementById('adminResetVerifySection').classList.add('hidden');
+        document.getElementById('admin2FASection').classList.add('hidden');
+        
+        // সরাসরি মাস্টার অ্যাডমিন সেটআপ স্ক্রিন ওপেন করা
+        document.getElementById('adminSignupSection').classList.remove('hidden');
     }
 
     function saveNewMasterCredentials() {
